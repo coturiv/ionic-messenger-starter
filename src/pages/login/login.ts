@@ -1,31 +1,54 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { Validators, FormGroup, FormControl } from '@angular/forms';
+import { NavController, LoadingController } from 'ionic-angular';
 
 import { TabsPage } from '../tabs/tabs';
+
+import { AuthService } from '../../providers/auth.service';
 
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
 })
 export class LoginPage {
-  login: FormGroup;
   homePage: any;
 
-  constructor(public nav: NavController) {
+  constructor(
+    public navCtrl: NavController,
+    public loadingCtrl: LoadingController,
+    public authService: AuthService
+  ) {
     this.homePage = TabsPage;
+  }
 
-    this.login = new FormGroup({
-      email: new FormControl('', Validators.required),
-      password: new FormControl('test', Validators.required)
+  /**
+   * login with facebook
+   */
+  loginWithFacebook() {
+    let loading = this.loadingCtrl.create();
+    loading.present();
+
+    this.authService.signInWithFacebook().then(_=> {
+      loading.dismiss();
+      this.navCtrl.setRoot(this.homePage);
+    }, (error)=> {
+      loading.dismiss();
+      console.log('Error: ' + JSON.stringify(error));
     });
   }
 
-  loginWithFacebook() {
-    this.nav.setRoot(this.homePage);
-  }
-
+  /**
+   * login with google
+   */
   loginWithGoogle() {
-    this.nav.setRoot(this.homePage);
+    let loading = this.loadingCtrl.create();
+    loading.present();
+
+    this.authService.signInWithGoogle().then(_=> {
+      loading.dismiss();
+      this.navCtrl.setRoot(this.homePage);
+    }, (error)=> {
+      loading.dismiss();
+      console.log('Error: ' + JSON.stringify(error));
+    });
   }
 }
