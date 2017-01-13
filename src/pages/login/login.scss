@@ -1,0 +1,15 @@
+page-login {
+	ion-content {
+		.position-bottom {
+			position: fixed;
+            left: 40px;
+            right: 40px;	
+			bottom: 54px;
+		}
+
+        button {
+            margin-top: 24px !important;
+            text-transform: none !important;
+        }
+	}
+}
