@@ -3,7 +3,6 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { TabsPage } from '../pages/tabs/tabs';
-import { ProfilePage } from '../pages/profile/profile';
 import { AboutPage } from '../pages/about/about';
 import { LoginPage } from '../pages/login/login';
 
@@ -14,7 +13,7 @@ import { LoginPage } from '../pages/login/login';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = LoginPage;
+  rootPage: any = TabsPage;
 
   openPages: Array<{title: string, component: any}>;
   pushPages: Array<{title: string, component: any}>;
@@ -28,7 +27,6 @@ export class MyApp {
     ];
 
     this.pushPages = [
-      { title: 'Profile', component: ProfilePage },
       { title: 'About', component: AboutPage },
     ];
 

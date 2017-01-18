@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 
-import { ChatsPage } from '../chats/chats';
-import { ContactsPage } from '../contacts/contacts';
-import { ProfilePage } from '../profile/profile';
+import { TabChatsPage } from '../tab-chats/tab-chats';
+import { TabContactsPage } from '../tab-contacts/tab-contacts';
+import { TabProfilePage } from '../tab-profile/tab-profile';
 
 
 @Component({
@@ -15,8 +15,8 @@ export class TabsPage {
   tab3Root: any;
 
   constructor() {
-    this.tab1Root = ChatsPage;
-    this.tab2Root = ContactsPage;
-    this.tab3Root = ProfilePage;
+    this.tab1Root = TabChatsPage;
+    this.tab2Root = TabContactsPage;
+    this.tab3Root = TabProfilePage;
   }
 }

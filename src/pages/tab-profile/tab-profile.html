@@ -1,0 +1,39 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Profile</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-card class="profile-top">
+    <ion-row>
+      <ion-col>
+        <div class="profile-photo">
+          <img [src]="user.photoUrl">
+        </div>
+        <button ion-button block clear color="royal">Change profile picture</button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+  <ion-list class="profile-detail">
+    <ion-row>
+      <ion-col no-padding>
+        <ion-item>
+          <h4>About Me</h4>
+          <p>{{user.displayName}}</p>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-item>
+      <h4><ion-icon name="phone-portrait"></ion-icon>Phone Number</h4>
+      <p>{{user.email}}</p>
+    </ion-item>      
+    <ion-item>
+      <h4><ion-icon name="mail"></ion-icon>Email Address</h4>
+      <p>{{user.photoUrl}}</p>
+    </ion-item>
+  </ion-list>
+</ion-content>
