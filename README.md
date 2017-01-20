@@ -24,7 +24,7 @@
 ```
 Ionic CLI: 2.1.18 or greater
 Ionic Framework: ^2.0.0-rc.5
-Angularfire2: ^2.0.0-beta.6
+Angularfire2: ^2.0.0-beta.7
 Firebase: ^3.6.5
 Cordova CLI: ^6.4.0
 ```
