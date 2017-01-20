@@ -1,5 +1,5 @@
 # Ionic Messenger Starter
- _A simple Ionic 2 Messenger app with Angularfire2 and Firebase v3._ Live at: https://ionic-messenger-starter.firebaseapp.com
+ _A simple [Ionic 2 Messenger app](https://market.ionic.io/starters/ionic-messenger-starter) with Angularfire2 and Firebase v3._ Live at: https://ionic-messenger-starter.firebaseapp.com
 
  <img src="https://s3.amazonaws.com/ionic-marketplace/ionic-messenger-starter/icon.png" width="124px" />
 
