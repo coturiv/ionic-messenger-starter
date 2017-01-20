@@ -10,15 +10,13 @@ import { AuthService } from '../../providers/auth.service';
   templateUrl: 'login.html'
 })
 export class LoginPage {
-  homePage: any;
+  homePage: any = TabsPage;
 
   constructor(
     public navCtrl: NavController,
     public loadingCtrl: LoadingController,
     public authService: AuthService
-  ) {
-    this.homePage = TabsPage;
-  }
+  ) {}
 
   /**
    * login with facebook

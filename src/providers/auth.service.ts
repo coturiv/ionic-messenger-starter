@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/first';
 import { Observable } from 'rxjs/Observable'; 
 
 import { AngularFire, AuthProviders, FirebaseAuthState, AuthMethods } from 'angularfire2';
@@ -54,17 +54,23 @@ export class AuthService {
     });
   }
 
+  logout() {
+    this.af.auth.logout();
+  }
+
   get currentUser(): Observable<any> {
     return Observable.create((observer) => {
-      this.af.auth.subscribe((authData) => {
-        observer.next({
-          uid:          authData.uid,
-          displayName:  authData.auth.displayName,
-          email:        authData.auth.email,
-          photoUrl:     authData.auth.photoURL
-        }, (error) => {
-          observer.error(error);
-        });
+      this.af.auth.first().subscribe((authData) => {
+        setTimeout(()=> {
+          observer.next({
+            uid:          authData.uid,
+            displayName:  authData.auth.displayName,
+            email:        authData.auth.email,
+            photoUrl:     authData.auth.photoURL || 'assets/img/noimage.png'
+          }, (error) => {
+            observer.error(error);
+          }, 200);
+        });        
       });
     })
   }

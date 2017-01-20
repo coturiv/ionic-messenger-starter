@@ -1,10 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, LoadingController } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { TabsPage } from '../pages/tabs/tabs';
 import { AboutPage } from '../pages/about/about';
 import { LoginPage } from '../pages/login/login';
+
+import { AuthService } from '../providers/auth.service';
 
 
 @Component({
@@ -13,13 +15,30 @@ import { LoginPage } from '../pages/login/login';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = LoginPage;
+  rootPage: any;
 
   openPages: Array<{title: string, component: any}>;
   pushPages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform) {
+  constructor(
+    public platform: Platform,
+    public loadingCtrl: LoadingController,
+    public authService: AuthService
+  ) {
     this.initializeApp();
+
+    let loading = this.loadingCtrl.create();
+    loading.present();
+    this.authService.getAuth()
+      .map(state => !!state)
+      .subscribe(authenticated => {
+        loading.dismiss();
+        this.rootPage = (authenticated) ? TabsPage : LoginPage;
+      }, (error) => {
+        loading.dismiss();
+        this.rootPage = LoginPage;
+        console.log('Error: ' + JSON.stringify(error));
+      });
 
     // used for an example of ngFor and navigation
     this.openPages = [
@@ -52,6 +71,7 @@ export class MyApp {
   }
 
   logout() {
+    this.authService.logout();
     this.nav.setRoot(LoginPage);
   }
 }
