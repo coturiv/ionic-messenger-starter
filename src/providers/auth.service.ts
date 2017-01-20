@@ -3,6 +3,7 @@ import 'rxjs/add/operator/first';
 import { Observable } from 'rxjs/Observable'; 
 
 import { AngularFire, AuthProviders, FirebaseAuthState, AuthMethods } from 'angularfire2';
+import firebase from 'firebase';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,7 @@ export class AuthService {
   /**
    * sign in wiht google
    */
-  signInWithGoogle(): firebase.Promise<FirebaseAuthState> {
+  signInWithGoogle(): Observable<any> {
 
     /**
      * for ios/android login
@@ -33,25 +34,65 @@ export class AuthService {
       });
      *------------------------
     */
-    return this.af.auth.login({
-      provider: AuthProviders.Google,
-      method: AuthMethods.Popup
+    return Observable.create((observer) => {
+      this.af.auth.login({ provider: AuthProviders.Google, method: AuthMethods.Popup })
+        .then((authData) => {
+          this.getFullProfile(authData.uid).first()
+            .subscribe((user) => {
+              if (user.$value == null) {
+                this.createUser(authData).then((res) => observer.next(res), (error) => observer.error(error));
+              }
+            }, (error) => observer.error(error));
+        }, (error) => observer.error(error));
     });
   }
 
   /**
    * sign in with facebook
    */
-  signInWithFacebook(): firebase.Promise<FirebaseAuthState> {
+  signInWithFacebook(): Observable<any> {
 
     /**
      * for ios/android login, please check https://github.com/angular/angularfire2/blob/master/docs/Auth-with-Ionic2.md
      */
-
-    return this.af.auth.login({
-      provider: AuthProviders.Facebook,
-      method: AuthMethods.Popup
+    return Observable.create((observer) => {
+      this.af.auth.login({ provider: AuthProviders.Facebook, method: AuthMethods.Popup })
+        .then((authData) => {
+          this.getFullProfile(authData.uid).first()
+            .subscribe((user) => {
+              if (user.$value == null) {
+                this.createUser(authData).then((res) => observer.next(res), (error) => observer.error(error));
+              }
+            }, (error) => observer.error(error));
+        }, (error) => observer.error(error));
     });
+  }
+
+  signInWithGithub(): Observable<any> {
+    return Observable.create((observer) => {
+      this.af.auth.login({ provider: AuthProviders.Github, method: AuthMethods.Redirect })
+        .then((authData) => {
+          this.getFullProfile(authData.uid).first()
+            .subscribe((user) => {
+              if (user.$value == null) {
+                this.createUser(authData).then((res) => observer.next(res), (error) => observer.error(error));
+              }
+            }, (error) => observer.error(error));
+        }, (error) => observer.error(error));
+    });
+  }
+
+  createUser(authData: FirebaseAuthState): firebase.Promise_Instance<void> {
+    return this.af.database.object('users/' + authData.uid)
+      .set({
+        uid: authData.auth.uid,
+        email: authData.auth.email,
+        isEmailVerified: authData.auth.emailVerified,
+        displayName: authData.auth.displayName,
+        photoURL: authData.auth.photoURL,
+        createdAt: firebase.database['ServerValue']['TIMESTAMP'],
+        providerData: authData.auth.providerData[0]
+      });
   }
 
   logout() {
@@ -60,18 +101,12 @@ export class AuthService {
 
   get currentUser(): Observable<any> {
     return Observable.create((observer) => {
-      this.af.auth.first().subscribe((authData) => {
-        setTimeout(()=> {
-          observer.next({
-            uid:          authData.uid,
-            displayName:  authData.auth.displayName,
-            email:        authData.auth.email,
-            photoUrl:     authData.auth.photoURL || 'assets/img/noimage.png'
-          }, (error) => {
-            observer.error(error);
-          }, 200);
-        });        
-      });
-    })
+      this.af.auth.first().subscribe(
+        (authData) => observer.next(authData.auth), (error) => observer.error(error));
+    });
+  };
+
+  getFullProfile(uid: string): Observable<any> {
+    return this.af.database.object('users/' + uid);
   }
 }

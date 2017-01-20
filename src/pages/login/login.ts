@@ -25,7 +25,7 @@ export class LoginPage {
     let loading = this.loadingCtrl.create();
     loading.present();
 
-    this.authService.signInWithFacebook().then(_=> {
+    this.authService.signInWithFacebook().subscribe(_=> {
       loading.dismiss();
       this.navCtrl.setRoot(this.homePage);
     }, (error)=> {
@@ -41,7 +41,23 @@ export class LoginPage {
     let loading = this.loadingCtrl.create();
     loading.present();
 
-    this.authService.signInWithGoogle().then(_=> {
+    this.authService.signInWithGoogle().subscribe(_=> {
+      loading.dismiss();
+      this.navCtrl.setRoot(this.homePage);
+    }, (error)=> {
+      loading.dismiss();
+      console.log('Error: ' + JSON.stringify(error));
+    });
+  }
+
+  /**
+   * login with Github
+   */
+  loginWithGithub() {
+    let loading = this.loadingCtrl.create();
+    loading.present();
+
+    this.authService.signInWithGithub().subscribe(_=> {
       loading.dismiss();
       this.navCtrl.setRoot(this.homePage);
     }, (error)=> {

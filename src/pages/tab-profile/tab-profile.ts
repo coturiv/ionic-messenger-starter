@@ -8,13 +8,13 @@ import { AuthService } from '../../providers/auth.service';
   templateUrl: 'tab-profile.html'
 })
 export class TabProfilePage {
-  user: any = {};
+  user: {displayName?: string, email?: string, photoURL?: string} = {};
 
   constructor(
     public authService: AuthService,
     public loadingCtrl: LoadingController
   ) {
-    this.user.photoUrl = 'assets/img/noimage.png';
+    this.user.photoURL = 'assets/img/noimage.png';
   }
 
   ionViewDidLoad() {
@@ -23,7 +23,9 @@ export class TabProfilePage {
     this.authService.currentUser
       .subscribe(user => {
         loading.dismiss();
-        this.user = user;
+        this.user.displayName  = user.displayName;
+        this.user.email        = user.email || user.providerData[0].email || 'Not set yet.';
+        this.user.photoURL     = user.photoURL || this.user.photoURL;
       }, (error)=> {
         loading.dismiss();
         console.log('Error: ' + JSON.stringify(error));
