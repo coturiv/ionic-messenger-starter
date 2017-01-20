@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { LoadingController } from 'ionic-angular';
+import { AuthService } from '../../providers/auth.service';
 
 
 @Component({
@@ -7,16 +8,26 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'tab-profile.html'
 })
 export class TabProfilePage {
-  user: any;
+  user: any = {};
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.user = {
-      email: 'sdey0081@gmail.com',
-      photoUrl: 'assets/img/noimage.png',
-      displayName: 'Benny Chan'
-    }
+  constructor(
+    public authService: AuthService,
+    public loadingCtrl: LoadingController
+  ) {
+    this.user.photoUrl = 'assets/img/noimage.png';
   }
 
-  ionViewDidLoad() {}
+  ionViewDidLoad() {
+    let loading = this.loadingCtrl.create();
+    loading.present();
+    this.authService.currentUser
+      .subscribe(user => {
+        loading.dismiss();
+        this.user = user;
+      }, (error)=> {
+        loading.dismiss();
+        console.log('Error: ' + JSON.stringify(error));
+      });
+  }
 
 }

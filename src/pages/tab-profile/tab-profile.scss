@@ -22,6 +22,15 @@ page-tab-profile {
 
         .profile-detail {
             margin-top: 24px;
+
+            ion-item {
+                ion-icon {
+                    font-size: 1.4rem;
+                };
+                p {
+                    padding-top: 6px;
+                }
+            }
         }
     }
 }

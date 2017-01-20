@@ -1,21 +1,17 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs/Observable'; 
 
-import { AngularFire, AuthProviders, FirebaseAuth, FirebaseAuthState, AuthMethods } from 'angularfire2';
+import { AngularFire, AuthProviders, FirebaseAuthState, AuthMethods } from 'angularfire2';
 
 @Injectable()
 export class AuthService {
-  private authState: FirebaseAuthState;
-
-  constructor(public af: AngularFire, public auth$: FirebaseAuth) {
-    this.authState = auth$.getAuth();
-    auth$.subscribe((state: FirebaseAuthState) => {
-      this.authState = state;
-    });
+  constructor(public af: AngularFire) {
+    
   }
 
-  get authenticated(): boolean {
-    return this.authState !== null;
+  getAuth(): Observable<FirebaseAuthState> {
+    return this.af.auth;
   }
 
   /**
@@ -37,7 +33,7 @@ export class AuthService {
       });
      *------------------------
     */
-    return this.auth$.login({
+    return this.af.auth.login({
       provider: AuthProviders.Google,
       method: AuthMethods.Popup
     });
@@ -52,9 +48,24 @@ export class AuthService {
      * for ios/android login, please check https://github.com/angular/angularfire2/blob/master/docs/Auth-with-Ionic2.md
      */
 
-    return this.auth$.login({
+    return this.af.auth.login({
       provider: AuthProviders.Facebook,
       method: AuthMethods.Popup
     });
+  }
+
+  get currentUser(): Observable<any> {
+    return Observable.create((observer) => {
+      this.af.auth.subscribe((authData) => {
+        observer.next({
+          uid:          authData.uid,
+          displayName:  authData.auth.displayName,
+          email:        authData.auth.email,
+          photoUrl:     authData.auth.photoURL
+        }, (error) => {
+          observer.error(error);
+        });
+      });
+    })
   }
 }

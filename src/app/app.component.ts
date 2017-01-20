@@ -13,7 +13,7 @@ import { LoginPage } from '../pages/login/login';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = TabsPage;
+  rootPage: any = LoginPage;
 
   openPages: Array<{title: string, component: any}>;
   pushPages: Array<{title: string, component: any}>;
