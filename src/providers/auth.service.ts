@@ -1,98 +1,91 @@
 import { Injectable } from '@angular/core';
+import { Platform } from 'ionic-angular';
+import { Facebook, GooglePlus } from 'ionic-native';
+
 import 'rxjs/add/operator/first';
 import { Observable } from 'rxjs/Observable'; 
 
 import { AngularFire, AuthProviders, FirebaseAuthState, AuthMethods } from 'angularfire2';
 import firebase from 'firebase';
 
+export enum AuthMode {
+  Facebook,
+  GooglePlus,
+  Github
+};
+
 @Injectable()
 export class AuthService {
-  constructor(public af: AngularFire) {
-    
-  }
+  constructor(public af: AngularFire, private platform: Platform) {}
 
   getAuth(): Observable<FirebaseAuthState> {
     return this.af.auth;
   }
 
-  /**
-   * sign in wiht google
-   */
-  signInWithGoogle(): Observable<any> {
+  login(mode: AuthMode) {
+    if (mode == AuthMode.GooglePlus)
+      return this.signInWithGoogle();
+    
+    if (mode == AuthMode.Facebook)
+      return this.signInWithFacebook();
 
-    /**
-     * for ios/android login
-     * -----------------------
-      GooglePlus.login({
-        'scopes': 'email',
+    if (mode == AuthMode.Github)
+      return this.signInWithGithub();
+  }
+
+  /**
+   * sign in wiht google+
+   */
+  private signInWithGoogle() {
+    if (!this.platform.is('cordova'))
+      return this.signInWithProvider(AuthProviders.Google);
+    
+    return GooglePlus.login({
+        'scopes': 'email profile',
         'webClientId': 'YOUR_WEB_CLIENT_ID'
       }).then( res => {
-        let provider  = firebase.auth.GoogleAuthProvider.credential(res.idToken);
-        firebase.auth().signInWithCredential(provider)
-      }, (error) => {
-        console.log('Error: ' + JSON.stringify(error));
-      });
-     *------------------------
-    */
-    return Observable.create((observer) => {
-      this.af.auth.login({ provider: AuthProviders.Google, method: AuthMethods.Popup })
-        .then((authData) => {
-          this.getFullProfile(authData.uid).first()
-            .subscribe((user) => {
-              if (user.$value == null) {
-                this.createUser(authData).then((res) => observer.next(res), (error) => observer.error(error));
-              }
-            }, (error) => observer.error(error));
-        }, (error) => observer.error(error));
-    });
+        return this.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken));
+      }, (error) => Promise.reject(error));
   }
 
   /**
    * sign in with facebook
    */
-  signInWithFacebook(): Observable<any> {
-
-    /**
-     * for ios/android login, please check https://github.com/angular/angularfire2/blob/master/docs/Auth-with-Ionic2.md
-     */
-    return Observable.create((observer) => {
-      this.af.auth.login({ provider: AuthProviders.Facebook, method: AuthMethods.Popup })
-        .then((authData) => {
-          this.getFullProfile(authData.uid).first()
-            .subscribe((user) => {
-              if (user.$value == null) {
-                this.createUser(authData).then((res) => observer.next(res), (error) => observer.error(error));
-              }
-            }, (error) => observer.error(error));
-        }, (error) => observer.error(error));
-    });
+  private signInWithFacebook() {
+    if (!this.platform.is('cordova'))
+      return this.signInWithProvider(AuthProviders.Facebook);
+    
+    return Facebook.login(['email', 'public_profile'])
+      .then(res => {
+        return this.signInWithCredential(firebase.auth.FacebookAuthProvider.credential(res.authResponse.accessToken));
+      }, (error) => Promise.reject(error));
   }
 
-  signInWithGithub(): Observable<any> {
-    return Observable.create((observer) => {
-      this.af.auth.login({ provider: AuthProviders.Github, method: AuthMethods.Redirect })
-        .then((authData) => {
-          this.getFullProfile(authData.uid).first()
-            .subscribe((user) => {
-              if (user.$value == null) {
-                this.createUser(authData).then((res) => observer.next(res), (error) => observer.error(error));
-              }
-            }, (error) => observer.error(error));
-        }, (error) => observer.error(error));
-    });
+  /**
+   * sign in with github
+   */
+  private signInWithGithub() {
+    return this.signInWithProvider(AuthProviders.Github);
   }
 
-  createUser(authData: FirebaseAuthState): firebase.Promise_Instance<void> {
-    return this.af.database.object('users/' + authData.uid)
-      .set({
-        uid: authData.auth.uid,
-        email: authData.auth.email,
-        isEmailVerified: authData.auth.emailVerified,
-        displayName: authData.auth.displayName,
-        photoURL: authData.auth.photoURL,
-        createdAt: firebase.database['ServerValue']['TIMESTAMP'],
-        providerData: authData.auth.providerData[0]
-      });
+  private signInWithProvider(provider: any, method: any = AuthMethods.Popup ) {
+    return this.af.auth.login({ provider: provider, method: method })
+  }
+
+  private signInWithCredential(credential) {
+    return firebase.auth().signInWithCredential(credential);
+  }
+
+  createAccount(data): firebase.Promise_Instance<void> {
+    return this.af.database.object('users/' + data.uid).set(
+        {
+            uid         : data.auth.uid,
+            email       : data.auth.email,
+            displayName : data.auth.displayName,
+            photoURL    : data.auth.photoURL,
+            createdAt   : firebase.database['ServerValue']['TIMESTAMP'],
+            providerData: data.auth.providerData[0]
+        });
   }
 
   logout() {
@@ -100,10 +93,7 @@ export class AuthService {
   }
 
   get currentUser(): Observable<any> {
-    return Observable.create((observer) => {
-      this.af.auth.first().subscribe(
-        (authData) => observer.next(authData.auth), (error) => observer.error(error));
-    });
+    return this.af.auth.first().map(user => user.auth);
   };
 
   getFullProfile(uid: string): Observable<any> {

@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController } from 'ionic-angular';
+import { NavController, LoadingController, ToastController } from 'ionic-angular';
 
 import { TabsPage } from '../tabs/tabs';
 
-import { AuthService } from '../../providers/auth.service';
+import { AuthService, AuthMode } from '../../providers/auth.service';
+
 
 @Component({
   selector: 'page-login',
@@ -13,56 +14,63 @@ export class LoginPage {
   homePage: any = TabsPage;
 
   constructor(
-    public navCtrl: NavController,
+    public navCtrl    : NavController,
     public loadingCtrl: LoadingController,
-    public authService: AuthService
+    public toastCtrl  : ToastController,
+    public authService: AuthService,
   ) {}
 
   /**
    * login with facebook
    */
   loginWithFacebook() {
-    let loading = this.loadingCtrl.create();
-    loading.present();
-
-    this.authService.signInWithFacebook().subscribe(_=> {
-      loading.dismiss();
-      this.navCtrl.setRoot(this.homePage);
-    }, (error)=> {
-      loading.dismiss();
-      console.log('Error: ' + JSON.stringify(error));
-    });
+    this.login(AuthMode.Facebook)
   }
 
   /**
    * login with google
    */
   loginWithGoogle() {
-    let loading = this.loadingCtrl.create();
-    loading.present();
-
-    this.authService.signInWithGoogle().subscribe(_=> {
-      loading.dismiss();
-      this.navCtrl.setRoot(this.homePage);
-    }, (error)=> {
-      loading.dismiss();
-      console.log('Error: ' + JSON.stringify(error));
-    });
+    this.login(AuthMode.GooglePlus);
   }
 
   /**
    * login with Github
    */
   loginWithGithub() {
+    this.login(AuthMode.Github);
+  }
+
+  private login(mode: AuthMode) {
     let loading = this.loadingCtrl.create();
     loading.present();
 
-    this.authService.signInWithGithub().subscribe(_=> {
-      loading.dismiss();
-      this.navCtrl.setRoot(this.homePage);
-    }, (error)=> {
-      loading.dismiss();
-      console.log('Error: ' + JSON.stringify(error));
+    this.authService.login(mode)
+      .then((data) => {
+        this.authService.getFullProfile(data.uid)
+          .first()
+          .subscribe((user) => {
+            if (user.$value != null) {
+              this.authService.createAccount(data)
+                .then( _=> {
+                  loading.dismiss();
+                  this.navCtrl.setRoot(TabsPage);
+                }, (error)=> this.showMessage(error.message || 'Unknown error'));
+            } else {
+              loading.dismiss();
+              this.navCtrl.setRoot(TabsPage);
+            }
+          }, (error)=> {
+            loading.dismiss();
+            this.showMessage(error.message || 'Unknown error');
+          });
+      }, (error)=>{
+        loading.dismiss();
+        this.showMessage(error.message || 'Unknown error');
     });
+  }
+
+  private showMessage(message: string) {
+    this.toastCtrl.create({message: message, duration: 3000}).present();
   }
 }
