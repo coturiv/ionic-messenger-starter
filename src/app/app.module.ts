@@ -16,20 +16,12 @@ import { ChatsService } from '../providers/chats.service';
 
 import { AngularFireModule } from 'angularfire2';
 
-// export const firebaseConfig = {
-//   apiKey: "FIREBASE_API_KEY",
-//   authDomain: "FIREBASE_AUTH_DOMAIN",
-//   databaseURL: "FIREBASE_DATABASE_URL",
-//   storageBucket: "FIREBASE_STORAGE_BUCKET",
-//   messagingSenderId: "FIREBASE_MESSAGING_SENDER_ID"
-// };
-
 export const firebaseConfig = {
-  apiKey: "AIzaSyCuBEWIhIIEoQyn8g2i34Gy4iWyPBF1dr0",
-  authDomain: "ionic-messenger-starter.firebaseapp.com",
-  databaseURL: "https://ionic-messenger-starter.firebaseio.com",
-  storageBucket: "ionic-messenger-starter.appspot.com",
-  messagingSenderId: "285970246877"
+  apiKey: "FIREBASE_API_KEY",
+  authDomain: "FIREBASE_AUTH_DOMAIN",
+  databaseURL: "FIREBASE_DATABASE_URL",
+  storageBucket: "FIREBASE_STORAGE_BUCKET",
+  messagingSenderId: "FIREBASE_MESSAGING_SENDER_ID"
 };
 
 @NgModule({
