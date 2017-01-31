@@ -50,7 +50,7 @@ export class LoginPage {
         this.authService.getFullProfile(data.uid)
           .first()
           .subscribe((user) => {
-            if (user.$value != null) {
+            if (user.$value == null) {
               this.authService.createAccount(data)
                 .then( _=> {
                   loading.dismiss();
