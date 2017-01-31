@@ -51,7 +51,7 @@ export class LoginPage {
           .first()
           .subscribe((user) => {
             if (user.$value == null) {
-              this.authService.createAccount(data)
+              this.authService.createAccount(data.auth)
                 .then( _=> {
                   loading.dismiss();
                   this.navCtrl.setRoot(TabsPage);
