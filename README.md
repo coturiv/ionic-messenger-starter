@@ -10,7 +10,7 @@
  <img src="https://s3.amazonaws.com/ionic-marketplace/ionic-messenger-starter/screenshot_3.png" width="30%" />
 ## Getting Started
 
-(*This project is still in development mode, it will be available since Jan 25, 2017. )
+(_This project is still in development. )
 
 * Clone this repository: `git clone https://github.com/sdey0081/ionic-messenger-starter.git`.
 * Run `npm install` from the project root.
