@@ -11,6 +11,11 @@ import { ChatMessagePage } from '../pages/chat-message/chat-message';
 import { LoginPage } from '../pages/login/login';
 import { AboutPage } from '../pages/about/about';
 
+import { ContactCardComponent } from '../components/contact-card/contact-card';
+import { MessageCardComponent } from '../components/message-card/message-card';
+import { ImagePickerComponent } from '../components/image-picker/image-picker';
+import { LoaderComponent } from '../components/loader/loader';
+
 import { AuthService } from '../providers/auth.service';
 import { ChatsService } from '../providers/chats.service';
 
@@ -24,34 +29,31 @@ export const firebaseConfig = {
   messagingSenderId: "FIREBASE_MESSAGING_SENDER_ID"
 };
 
+let appPages = [
+  MyApp,
+  TabsPage,
+  TabContactsPage,
+  TabProfilePage,
+  TabChatsPage,
+  ChatChannelPage,
+  ChatMessagePage,
+  LoginPage,
+  AboutPage,
+
+  ContactCardComponent,
+  MessageCardComponent,
+  ImagePickerComponent,
+  LoaderComponent,
+];
+
 @NgModule({
-  declarations: [
-    MyApp,
-    TabsPage,
-    TabContactsPage,
-    TabProfilePage,
-    TabChatsPage,
-    ChatChannelPage,
-    ChatMessagePage,
-    LoginPage,
-    AboutPage
-  ],
+  declarations: appPages,
   imports: [
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig)
   ],
   bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-    TabsPage,
-    TabContactsPage,
-    TabProfilePage,
-    TabChatsPage,
-    ChatChannelPage,
-    ChatMessagePage,
-    LoginPage,
-    AboutPage
-  ],
+  entryComponents: appPages,
   providers: [AuthService, ChatsService, {provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
 export class AppModule {}

@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+
+import { AngularFire } from 'angularfire2';
+import * as firebase from 'firebase';
 
 
 @Injectable()
 export class ChatsService {
 
-  constructor(public http: Http) {}
+  constructor(public af: AngularFire) {
+    
+  }
 
 }

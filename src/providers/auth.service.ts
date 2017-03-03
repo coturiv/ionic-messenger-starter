@@ -3,9 +3,9 @@ import { Platform } from 'ionic-angular';
 import { Facebook, GooglePlus } from 'ionic-native';
 
 import 'rxjs/add/operator/first';
-import { Observable } from 'rxjs/Observable'; 
+import { Observable } from 'rxjs/Rx'; 
 
-import { AngularFire, AuthProviders, FirebaseAuthState, AuthMethods } from 'angularfire2';
+import { AngularFire, AuthProviders, AuthMethods } from 'angularfire2';
 import firebase from 'firebase';
 
 export enum AuthMode {
@@ -18,7 +18,7 @@ export enum AuthMode {
 export class AuthService {
   constructor(public af: AngularFire, private platform: Platform) {}
 
-  getAuth(): Observable<FirebaseAuthState> {
+  getAuth() {
     return this.af.auth;
   }
 
@@ -89,14 +89,25 @@ export class AuthService {
   }
 
   logout() {
-    this.af.auth.logout();
+    this.getAuth().logout();
   }
 
+  /**
+   * get current user (auth status)
+   */
   get currentUser(): Observable<any> {
-    return this.af.auth.first().map(user => user.auth);
+    return this.getAuth().first().map(user => user.auth);
   };
+  
+  /**
+   * get full profile
+   */
+  getFullProfile(uid?: string): Observable<any> {
+    if (uid)
+      return this.af.database.object('users/' + uid);
 
-  getFullProfile(uid: string): Observable<any> {
-    return this.af.database.object('users/' + uid);
+    return this.getAuth().flatMap(auth => {
+      return this.af.database.object('users/' + auth.uid);
+    });
   }
 }
