@@ -34,5 +34,5 @@ For Ionic 3 authentication, this link would be helpful.
 
 ```
 https://gist.github.com/sdey0081/87dfc37ec95d48afff0fd02e1a5ebb47
-``
+```
 (PS: needed small upgrade for firebase-js v4.0 breaking changes later)
