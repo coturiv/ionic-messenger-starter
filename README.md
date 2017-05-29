@@ -28,3 +28,11 @@ Angularfire2: ^2.0.0-beta.7
 Firebase: ^3.6.5
 Cordova CLI: ^6.4.0
 ```
+## Wanted Ionic 3? Yeah, it will be here soon.
+
+For Ionic 3 authentication, this link would be helpful.
+
+```
+https://gist.github.com/sdey0081/87dfc37ec95d48afff0fd02e1a5ebb47
+``
+(PS: needed small upgrade for firebase-js v4.0 breaking changes later)
