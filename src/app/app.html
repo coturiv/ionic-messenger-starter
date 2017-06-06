@@ -1,17 +1,16 @@
 <ion-menu [content]="content">
-  <ion-header>
+  <!--<ion-header>
     <ion-toolbar>
       <ion-title>Menu</ion-title>
     </ion-toolbar>
-  </ion-header>
+  </ion-header>-->
 
   <ion-content>
-    <ion-list>
-      <button menuClose ion-item *ngFor="let p of openPages" (click)="openPage(p)">
-        {{p.title}}
-      </button>
+    <div>
 
-      <button menuClose ion-item *ngFor="let p of pushPages" (click)="pushPage(p)">
+    </div>
+    <ion-list>
+      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
         {{p.title}}
       </button>
       <button menuClose ion-item (click)="logout()">

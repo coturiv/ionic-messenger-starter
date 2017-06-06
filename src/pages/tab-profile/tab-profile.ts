@@ -1,26 +1,23 @@
 import { Component } from '@angular/core';
-import { LoadingController } from 'ionic-angular';
-import { AuthService } from '../../providers/auth.service';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { AuthProvider } from '../../providers/auth/auth';
 
-
+@IonicPage()
 @Component({
   selector: 'page-tab-profile',
-  templateUrl: 'tab-profile.html'
+  templateUrl: 'tab-profile.html',
 })
 export class TabProfilePage {
   user: {displayName?: string, email?: string, photoURL?: string} = {};
 
-  constructor(
-    public authService: AuthService,
-    public loadingCtrl: LoadingController
-  ) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public authProvider: AuthProvider) {
     this.user.photoURL = 'assets/img/noimage.png';
   }
 
   ionViewDidLoad() {
     let loading = this.loadingCtrl.create();
     loading.present();
-    this.authService.currentUser
+    this.authProvider.currentUser
       .subscribe(user => {
         loading.dismiss();
         this.user.displayName  = user.displayName;

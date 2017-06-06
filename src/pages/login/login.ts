@@ -1,76 +1,83 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
+import { AuthProvider } from '../../providers/auth/auth';
 
-import { TabsPage } from '../tabs/tabs';
-
-import { AuthService, AuthMode } from '../../providers/auth.service';
-
-
+@IonicPage()
 @Component({
   selector: 'page-login',
-  templateUrl: 'login.html'
+  templateUrl: 'login.html',
 })
 export class LoginPage {
-  homePage: any = TabsPage;
 
   constructor(
-    public navCtrl    : NavController,
-    public loadingCtrl: LoadingController,
-    public toastCtrl  : ToastController,
-    public authService: AuthService,
-  ) {}
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    public loadingCtrl: LoadingController, 
+    public toastCtrl: ToastController,
+    public authProvider: AuthProvider
+  ) {
+  }
 
-  /**
-   * login with facebook
-   */
   loginWithFacebook() {
-    this.login(AuthMode.Facebook)
+    let loading = this.loadingCtrl.create();
+    loading.present();
+    this.authProvider.signInWithFacebook()
+      .then((res) => {
+        this.updateProfile(res.user || res);
+        loading.dismiss();
+        this.navCtrl.setRoot('TabsPage');
+      }, (error) => {
+        loading.dismiss();
+        this.showMessage(error && error.message);
+      });
   }
 
   /**
    * login with google
    */
   loginWithGoogle() {
-    this.login(AuthMode.GooglePlus);
+    let loading = this.loadingCtrl.create();
+    loading.present();
+    this.authProvider.signInWithGoogle()
+      .then((res) => {
+        this.updateProfile(res.user || res);
+        loading.dismiss();
+        this.navCtrl.setRoot('TabsPage');
+      }, (error) => {
+        loading.dismiss();
+        this.showMessage(error && error.message);
+      });
   }
 
   /**
    * login with Github
    */
   loginWithGithub() {
-    this.login(AuthMode.Github);
-  }
-
-  private login(mode: AuthMode) {
     let loading = this.loadingCtrl.create();
     loading.present();
-
-    this.authService.login(mode)
-      .then((data) => {
-        this.authService.getFullProfile(data.uid)
-          .first()
-          .subscribe((user) => {
-            if (user.$value == null) {
-              this.authService.createAccount(data.auth)
-                .then( _=> {
-                  loading.dismiss();
-                  this.navCtrl.setRoot(TabsPage);
-                }, (error)=> this.showMessage(error.message || 'Unknown error'));
-            } else {
-              loading.dismiss();
-              this.navCtrl.setRoot(TabsPage);
-            }
-          }, (error)=> {
-            loading.dismiss();
-            this.showMessage(error.message || 'Unknown error');
-          });
-      }, (error)=>{
+    this.authProvider.signInWithGithub()
+      .then((res) => {
+        this.updateProfile(res.user || res);
         loading.dismiss();
-        this.showMessage(error.message || 'Unknown error');
+        this.navCtrl.setRoot('TabsPage');
+      }, (error) => {
+        loading.dismiss();
+        this.showMessage(error && error.message);
+      });
+  }
+
+  private updateProfile(user: any) {
+    return this.authProvider.updateProfile({
+      uid        : user.uid,
+      displayName: user.displayName,
+      email      : user.email,
+      photoURL   : user.photoURL,
+      providerData   : user.providerData[0]
     });
   }
 
   private showMessage(message: string) {
     this.toastCtrl.create({message: message, duration: 3000}).present();
   }
+
 }

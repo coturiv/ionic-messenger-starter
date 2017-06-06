@@ -1,5 +1,5 @@
 # Ionic Messenger Starter
- _A simple [Ionic 2 Messenger app](https://market.ionic.io/starters/ionic-messenger-starter) with Angularfire2 and Firebase v3._ Live at: https://ionic-messenger-starter.firebaseapp.com
+ _A simple [Ionic Messenger app](https://market.ionic.io/starters/ionic-messenger-starter) with Angularfire2 and Firebase v4._ Live at: https://ionic-messenger-starter.firebaseapp.com
 
  <img src="https://s3.amazonaws.com/ionic-marketplace/ionic-messenger-starter/icon.png" width="124px" />
 
@@ -22,17 +22,9 @@
 
 ## Environment
 ```
-Ionic CLI: 2.1.18 or greater
-Ionic Framework: ^2.0.0-rc.5
-Angularfire2: ^2.0.0-beta.7
-Firebase: ^3.6.5
-Cordova CLI: ^6.4.0
+Ionic CLI: 3.3.0 or greater
+Ionic Framework: ^3.3.0
+Angularfire2: ^4.0.0-rc.1
+Firebase: ^4.1.1
+Cordova CLI: ^7.0.1
 ```
-## Wanted Ionic 3? Yeah, it will be here soon.
-
-For Ionic 3 authentication, this link would be helpful.
-
-```
-https://gist.github.com/sdey0081/87dfc37ec95d48afff0fd02e1a5ebb47
-```
-(PS: needed small upgrade for firebase-js v4.0 breaking changes later)

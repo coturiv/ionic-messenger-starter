@@ -1,28 +1,18 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController } from 'ionic-angular';
-
-import { ChatChannelPage } from '../chat-channel/chat-channel';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 
+@IonicPage()
 @Component({
   selector: 'page-tab-chats',
-  templateUrl: 'tab-chats.html'
+  templateUrl: 'tab-chats.html',
 })
 export class TabChatsPage {
 
-  constructor(
-    public navCtrl: NavController, 
-    public navParams: NavParams, 
-    public modalCtrl: ModalController
-  ) {
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-  }
-
-  openChannelPage(ev: any) {
-    let modal = this.modalCtrl.create(ChatChannelPage);
-    modal.present();
   }
 
 }

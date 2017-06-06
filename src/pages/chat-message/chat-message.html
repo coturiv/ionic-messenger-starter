@@ -1,18 +1,44 @@
-<!--
-  Generated template for the ChatMessage page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
-    <ion-title>ChatMessage</ion-title>
+    <ion-title>Messages</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col col-2 no-padding text-center>
+        <button ion-button small clear icon-only>
+          <i class="pe-7s-camera"></i>
+        </button> <!--send images-->
+      </ion-col>
+      <ion-col col-2 no-padding text-center>
+        <button ion-button small clear icon-only>
+          <i class="pe-7s-user"></i>
+        </button> <!--send contacts-->
+      </ion-col>
+      <ion-col no-padding text-right>
+        <ion-label *ngIf="chatText && chatText.length > textMaxLength" color="danger" class="message-warning">
+          Your message is {{chatText.length}} characters too long.
+        </ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-10 no-padding>
+        <ion-textarea type="text" [(ngModel)]="chatText" rows="1" [maxlength]="500" [placeholder]="'Type a message here'" auto-size block></ion-textarea>
+      </ion-col>
+      <ion-col no-padding text-right>
+        <button ion-button (click)="sendMessage()" [disabled]="!chatText || (chatText && chatText.length > textMaxLength)" color="dark" class="button-send" small clear icon-only>
+          <ion-icon name="md-send"></ion-icon>
+          <!--<i class="pe-7s-paper-plane"></i>-->
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

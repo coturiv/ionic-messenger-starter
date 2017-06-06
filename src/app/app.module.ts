@@ -1,59 +1,56 @@
-import { NgModule, ErrorHandler } from '@angular/core';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { BrowserModule } from '@angular/platform-browser';
+import { ErrorHandler, NgModule } from '@angular/core';
+import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+
 import { MyApp } from './app.component';
-
-import { TabsPage } from '../pages/tabs/tabs';
-import { TabContactsPage } from '../pages/tab-contacts/tab-contacts';
-import { TabProfilePage } from '../pages/tab-profile/tab-profile';
-import { TabChatsPage } from '../pages/tab-chats/tab-chats';
-import { ChatChannelPage } from '../pages/chat-channel/chat-channel';
-import { ChatMessagePage } from '../pages/chat-message/chat-message';
-import { LoginPage } from '../pages/login/login';
-import { AboutPage } from '../pages/about/about';
-
 import { ContactCardComponent } from '../components/contact-card/contact-card';
-import { MessageCardComponent } from '../components/message-card/message-card';
 import { ImagePickerComponent } from '../components/image-picker/image-picker';
 import { LoaderComponent } from '../components/loader/loader';
+import { AutoFocusDirective } from '../directives/auto-focus/auto-focus';
 
-import { AuthService } from '../providers/auth.service';
-import { ChatsService } from '../providers/chats.service';
-
+import { firebaseConfig } from './app.constants';
 import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 
-export const firebaseConfig = {
-  apiKey: "FIREBASE_API_KEY",
-  authDomain: "FIREBASE_AUTH_DOMAIN",
-  databaseURL: "FIREBASE_DATABASE_URL",
-  storageBucket: "FIREBASE_STORAGE_BUCKET",
-  messagingSenderId: "FIREBASE_MESSAGING_SENDER_ID"
-};
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { Facebook } from '@ionic-native/facebook';
+import { GooglePlus } from '@ionic-native/google-plus';
 
-let appPages = [
-  MyApp,
-  TabsPage,
-  TabContactsPage,
-  TabProfilePage,
-  TabChatsPage,
-  ChatChannelPage,
-  ChatMessagePage,
-  LoginPage,
-  AboutPage,
+import { AuthProvider } from '../providers/auth/auth';
+import { ChatsProvider } from '../providers/chats/chats';
+import { ContactsProvider } from '../providers/contacts/contacts';
 
-  ContactCardComponent,
-  MessageCardComponent,
-  ImagePickerComponent,
-  LoaderComponent,
-];
 
 @NgModule({
-  declarations: appPages,
+  declarations: [
+    MyApp,
+    ContactCardComponent,
+    ImagePickerComponent,
+    LoaderComponent,
+    AutoFocusDirective,
+  ],
   imports: [
+    BrowserModule,
     IonicModule.forRoot(MyApp),
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireAuthModule,
+    AngularFireDatabaseModule,
   ],
   bootstrap: [IonicApp],
-  entryComponents: appPages,
-  providers: [AuthService, ChatsService, {provide: ErrorHandler, useClass: IonicErrorHandler}]
+  entryComponents: [
+    MyApp,
+  ],
+  providers: [
+    StatusBar,
+    SplashScreen,
+    Facebook,
+    GooglePlus,
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    AuthProvider,
+    ChatsProvider,
+    ContactsProvider
+  ]
 })
 export class AppModule {}

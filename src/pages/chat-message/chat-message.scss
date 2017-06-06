@@ -1,3 +1,21 @@
 page-chat-message {
+    ion-footer {
+        i {
+            font-size: 24px !important;
+            color: #222;
+        }
 
+        .message-warning {
+            font-style: italic;
+            font-size: 10px !important;
+        }
+
+        .button-send ion-icon {
+            font-size: 2.0em !important;
+        }
+
+        textarea {
+            padding: 0 8px !important;
+        }
+    }
 }

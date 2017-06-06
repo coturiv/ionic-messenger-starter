@@ -1,12 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, LoadingController } from 'ionic-angular';
-import { StatusBar, Splashscreen } from 'ionic-native';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { TabsPage } from '../pages/tabs/tabs';
-import { AboutPage } from '../pages/about/about';
-import { LoginPage } from '../pages/login/login';
-
-import { AuthService } from '../providers/auth.service';
+import { AuthProvider } from '../providers/auth/auth';
 
 
 @Component({
@@ -17,36 +14,20 @@ export class MyApp {
 
   rootPage: any;
 
-  openPages: Array<{title: string, component: any}>;
-  pushPages: Array<{title: string, component: any}>;
+  pages: Array<{title: string, component: any}>;
 
   constructor(
-    public platform: Platform,
+    public platform: Platform, 
+    public statusBar: StatusBar, 
+    public splashScreen: SplashScreen, 
     public loadingCtrl: LoadingController,
-    public authService: AuthService
+    public authProvider: AuthProvider 
   ) {
     this.initializeApp();
 
-    let loading = this.loadingCtrl.create();
-    loading.present();
-    this.authService.getAuth()
-      .map(state => !!state)
-      .subscribe(authenticated => {
-        loading.dismiss();
-        this.rootPage = (authenticated) ? TabsPage : LoginPage;
-      }, (error) => {
-        loading.dismiss();
-        this.rootPage = LoginPage;
-        console.log('Error: ' + JSON.stringify(error));
-      });
-
     // used for an example of ngFor and navigation
-    this.openPages = [
-      { title: 'Home', component: TabsPage }
-    ];
-
-    this.pushPages = [
-      { title: 'About', component: AboutPage },
+    this.pages = [
+      { title: 'Home', component: 'LoginPage' }
     ];
 
   }
@@ -55,9 +36,21 @@ export class MyApp {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      StatusBar.styleDefault();
-      Splashscreen.hide();
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
     });
+
+    let loading = this.loadingCtrl.create();
+    this.authProvider.getAuth()
+      .map(state => !!state)
+      .subscribe(authenticated => {
+        loading.dismiss();
+        this.rootPage = (authenticated) ? 'TabsPage' : 'LoginPage';
+      }, (error) => {
+        loading.dismiss();
+        this.rootPage = 'LoginPage';
+        console.log('Error: ' + JSON.stringify(error));
+      });
   }
 
   openPage(page) {
@@ -66,12 +59,8 @@ export class MyApp {
     this.nav.setRoot(page.component);
   }
 
-  pushPage(page) {
-    this.nav.push(page.component);
-  }
-
   logout() {
-    this.authService.logout();
-    this.nav.setRoot(LoginPage);
+    this.authProvider.signOut()
+      .then(() => this.nav.setRoot('LoginPage'));
   }
 }
