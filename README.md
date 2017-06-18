@@ -12,7 +12,7 @@
 
 (_Please update firebase api key with yours before running._)
 
-* Clone this repository: `git clone https://github.com/tiniestory/ionic-messenger-starter.git`.
+* Clone this repository: `git clone https://github.com/sdey0081/ionic-messenger-starter.git`.
 * Run `npm install` from the project root.
 * Install the ionic CLI (`npm install -g ionic`)
 * Remove firebase module from `node_modules/angularfire2/node_modules/`
