@@ -10,21 +10,19 @@
 </ion-header>
 
 
-<ion-content padding>
-  <ion-list>
-    <ion-item-group *ngFor="let contact of contactList; let i=index">
+<ion-content>
+  <ion-item-group *ngFor="let contact of contactList; let i=index">
 
-      <ion-item>
-        <ion-avatar item-start>
-          <img [src]="contact.photoURL || 'assets/img/noimage.png'">
-        </ion-avatar>
-        <h2>{{contact.displayName}}</h2>
-        <p>{{contact.email}}</p>
-        <ion-note item-end>
-          {{contact.updatedAt | date: 'MMM dd'}}
-        </ion-note>
-      </ion-item>
-      
-    </ion-item-group>
-  </ion-list>
+    <ion-item>
+      <ion-avatar item-start>
+        <img [src]="contact.photoURL || 'assets/img/noavatar.png'">
+      </ion-avatar>
+      <h2>{{contact.displayName}}</h2>
+      <p>{{contact.email}}</p>
+      <ion-note item-end>
+        {{contact.updatedAt | date: 'MMM dd'}}
+      </ion-note>
+    </ion-item>
+    
+  </ion-item-group>
 </ion-content>

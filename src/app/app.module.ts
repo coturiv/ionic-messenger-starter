@@ -17,6 +17,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Facebook } from '@ionic-native/facebook';
 import { GooglePlus } from '@ionic-native/google-plus';
+import { Keyboard } from '@ionic-native/keyboard';
 
 import { AuthProvider } from '../providers/auth/auth';
 import { ChatsProvider } from '../providers/chats/chats';
@@ -47,6 +48,7 @@ import { ContactsProvider } from '../providers/contacts/contacts';
     SplashScreen,
     Facebook,
     GooglePlus,
+    Keyboard,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
     ChatsProvider,

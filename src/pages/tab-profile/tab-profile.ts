@@ -11,7 +11,7 @@ export class TabProfilePage {
   user: {displayName?: string, email?: string, photoURL?: string} = {};
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, public authProvider: AuthProvider) {
-    this.user.photoURL = 'assets/img/noimage.png';
+    this.user.photoURL = 'assets/img/noavatar.png';
   }
 
   ionViewDidLoad() {
@@ -27,6 +27,10 @@ export class TabProfilePage {
         loading.dismiss();
         console.log('Error: ' + JSON.stringify(error));
       });
+  }
+
+  changeProfile() {
+    
   }
 
 }

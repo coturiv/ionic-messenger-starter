@@ -10,7 +10,7 @@
  <img src="https://s3.amazonaws.com/ionic-marketplace/ionic-messenger-starter/screenshot_3.png" width="30%" />
 ## Getting Started
 
-(_This project is still in development, will be updated with final version on March 5, 2017._ )
+(_Please update firebase api key with yours before running._)
 
 * Clone this repository: `git clone https://github.com/tiniestory/ionic-messenger-starter.git`.
 * Run `npm install` from the project root.

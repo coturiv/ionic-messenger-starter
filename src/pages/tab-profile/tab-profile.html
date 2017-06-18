@@ -15,9 +15,9 @@
     <ion-row>
       <ion-col>
         <div class="profile-photo">
-          <img [src]="user.photoURL">
+          <img [src]="user.photoURL || 'assets/img/noavatar.png'">
         </div>
-        <button ion-button block clear color="royal">Change profile picture</button>
+        <button ion-button (click)="changeProfile()" block clear color="royal">Change profile picture</button>
       </ion-col>
     </ion-row>
   </ion-card>
@@ -29,11 +29,7 @@
           <p>{{user.displayName}}</p>
         </ion-item>
       </ion-col>
-    </ion-row>
-    <ion-item icon-left>
-      <h4><ion-icon name="phone-portrait"></ion-icon>Phone Number</h4>
-      <p>(123) 456 7890</p>
-    </ion-item>      
+    </ion-row>    
     <ion-item icon-left>
       <h4><ion-icon name="mail"></ion-icon>Email Address</h4>
       <p>{{user.email}}</p>

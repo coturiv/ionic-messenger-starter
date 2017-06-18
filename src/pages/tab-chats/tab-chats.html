@@ -5,16 +5,26 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Chats</ion-title>
-    <ion-buttons end>
-      <button ion-button clear>
-        <ion-icon name="md-more"></ion-icon>
-      </button>
-    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      General
+      <button [disabled]="!user" ion-button clear (click)="joinChannel()" item-end>
+        Join
+      </button>
+    </ion-list-header>
+    <button ion-item (click)="joinDirectChat()" detail-none *ngFor="let message of messages; let i=index">
+      <ion-avatar item-left>
+        <preload-image class="user-image" [ratio]="{w:1, h:1}" [src]="(message.user | async)?.photoURL || 'assets/img/noavatar.png'"></preload-image>
+      </ion-avatar>
+      <h2 class="item-title">{{(message.user | async)?.displayName}}</h2>
+      <p class="item-description">{{message.message}}</p>
+      <ion-note class="item-time" item-right>{{message.timestamp | date:"hh:mm a"}}</ion-note>
+    </button>
+  </ion-list>
 </ion-content>

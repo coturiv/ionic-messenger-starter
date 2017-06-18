@@ -109,7 +109,7 @@ export class AuthProvider {
   /**
    * get full profile
    */
-  getFullProfile(uid?: string): Observable<any> {
+  getFullProfile(uid?: string): Observable<UserModel> {
     if (uid)
       return this.db.object(tableNames.User + '/' + uid);
     
@@ -120,4 +120,12 @@ export class AuthProvider {
       });
     });
   }
+}
+
+export class UserModel {
+  uid?: string;
+  email?: string;
+  displayName?: string;
+  photoURL?: string;
+  providerData?: any;
 }

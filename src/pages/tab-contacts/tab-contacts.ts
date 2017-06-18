@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { ContactsProvider } from '../../providers/contacts/contacts';
 
 @IonicPage()
@@ -10,12 +10,20 @@ import { ContactsProvider } from '../../providers/contacts/contacts';
 export class TabContactsPage {
   contactList: Array<any>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public contactsProvider: ContactsProvider) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    public loadingCtrl: LoadingController,
+    public contactsProvider: ContactsProvider,
+  ) {
   }
 
   ionViewDidLoad() {
+    let loading = this.loadingCtrl.create();
+    loading.present();
     this.contactsProvider.getContacts().subscribe((contacts) => {
       this.contactList = contacts;
+      loading.dismiss();
     });
   }
 
