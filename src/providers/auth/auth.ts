@@ -103,6 +103,11 @@ export class AuthProvider {
 
   updateProfile(user): firebase.Promise<any> {
     user.updatedAt = firebase.database['ServerValue']['TIMESTAMP'];
+
+    let providerData = user.providerData;
+    if (providerData && providerData.providerId === 'facebook.com')
+      user.photoURL = `https://graph.facebook.com/${providerData.uid}/picture?type=square`;
+      
     return this.db.object(tableNames.User + '/' + user.uid).update(user);
   }
 
