@@ -1,13 +1,10 @@
 # Ionic Messenger Starter
- _A simple [Ionic Messenger app](https://market.ionic.io/starters/ionic-messenger-starter) with Angularfire2 and Firebase v4._ Live at: https://ionic-messenger-starter.firebaseapp.com
-
  <img src="https://s3.amazonaws.com/ionic-marketplace/ionic-messenger-starter/icon.png" width="124px" />
+ 
+ _A simple [Ionic Messenger app](https://market.ionic.io/starters/ionic-messenger-starter) with Angularfire2 and Firebase v4._ 
+ 
+ Live at: https://ionic-messenger-starter.firebaseapp.com
 
-
-## App Preview
- <img src="https://s3.amazonaws.com/ionic-marketplace/ionic-messenger-starter/screenshot_1.png" width="30%" />
- <img src="https://s3.amazonaws.com/ionic-marketplace/ionic-messenger-starter/screenshot_2.png" width="30%" />
- <img src="https://s3.amazonaws.com/ionic-marketplace/ionic-messenger-starter/screenshot_3.png" width="30%" />
 ## Getting Started
 
 (_Please update firebase api key with yours before running._)
