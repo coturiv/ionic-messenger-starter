@@ -16,6 +16,18 @@
 
 **Note:** Is your build slow? Update `npm` to 3.x: `npm install -g npm`.
 
+## Upcomming
+
+- Person to person & Group chatting feature(done).
+- FCM Notification with Firebase Function, [example](https://github.com/firebase/functions-samples/tree/master/fcm-notifications).
+- Sending photos & generate thumbnails, [example](https://github.com/firebase/functions-samples/tree/master/generate-thumbnail).
+- Available to edit old messages.
+- Sending emoticons(like Slack).
+- Etc.
+
+(_**I am still busy with multiple projects, but will try my best. Any contributors are welcome.**_)
+
+
 ## Environment
 ```
 Ionic CLI: 3.3.0 or greater
