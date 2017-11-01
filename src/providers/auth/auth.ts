@@ -5,7 +5,7 @@ import { GooglePlus } from '@ionic-native/google-plus';
 import { Observable } from 'rxjs/Rx';
 
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { FbRtdbProvider } from '../fb-rtdb/fb-rtdb';
 import * as firebase from 'firebase/app';
 
 import { tableNames, googleWebClientId } from '../../app/app.constants';
@@ -15,7 +15,7 @@ export class AuthProvider {
 
   constructor(
     public afAuth: AngularFireAuth,
-    public db: AngularFireDatabase,
+    public rtdb: FbRtdbProvider,
     public facebook: Facebook,
     public googleplus: GooglePlus,
     public platform: Platform
@@ -38,7 +38,7 @@ export class AuthProvider {
   /**
    * sign in with facebook
    */
-  signInWithFacebook(): firebase.Promise<any> {
+  signInWithFacebook(): Promise<any> {
     if (this.platform.is('cordova')) {
       return this.platform.ready().then(() => {
         return this.facebook.login(['email', 'public_profile']).then((res) => {
@@ -54,7 +54,7 @@ export class AuthProvider {
   /**
    * sign in with googleplus
    */
-  signInWithGoogle(): firebase.Promise<any> {
+  signInWithGoogle(): Promise<any> {
     if (this.platform.is('cordova')) {
       return this.platform.ready().then(() => {
         return this.googleplus.login({
@@ -65,7 +65,7 @@ export class AuthProvider {
           const googleCredential = firebase.auth.GoogleAuthProvider.credential(res.idToken);
           return this.afAuth.auth.signInWithCredential(googleCredential);
         }, (error) => {
-          return firebase.Promise.reject(error);
+          return Promise.reject(error);
         });
       });
     } else {
@@ -76,39 +76,39 @@ export class AuthProvider {
   /**
    * sign in with github
    */
-  signInWithGithub(): firebase.Promise<any> {
+  signInWithGithub(): Promise<any> {
     return this.afAuth.auth.signInWithPopup(new firebase.auth.GithubAuthProvider());
   }
 
   /**
    * sign in with emai & password
    */
-  signInWithEmail(credential: any): firebase.Promise<any> {
+  signInWithEmail(credential: any): Promise<any> {
     return this.afAuth.auth.signInWithEmailAndPassword(credential.email, credential.password);
   }
 
   /**
    * sign up with email & password
    */
-  signUpWithEmail(credential: any): firebase.Promise<void> {
+  signUpWithEmail(credential: any): Promise<void> {
     return this.afAuth.auth.createUserWithEmailAndPassword(credential.email, credential.password);
   }
 
   /**
    * sign out
    */
-  signOut(): firebase.Promise<any> {
+  signOut(): Promise<any> {
     return this.afAuth.auth.signOut();
   }
 
-  updateProfile(user): firebase.Promise<any> {
+  updateProfile(user): Promise<any> {
     user.updatedAt = firebase.database['ServerValue']['TIMESTAMP'];
 
     let providerData = user.providerData;
     if (providerData && providerData.providerId === 'facebook.com')
       user.photoURL = `https://graph.facebook.com/${providerData.uid}/picture?type=square`;
-      
-    return this.db.object(tableNames.User + '/' + user.uid).update(user);
+    
+    return this.rtdb.update(tableNames.User, user.uid, user);
   }
 
   /**
@@ -116,13 +116,10 @@ export class AuthProvider {
    */
   getFullProfile(uid?: string): Observable<UserModel> {
     if (uid)
-      return this.db.object(tableNames.User + '/' + uid);
+      return this.rtdb.object(tableNames.User + '/' + uid);
     
-    return Observable.create((observer) => {
-      this.getAuth().subscribe((user: firebase.User) => {
-        if (user !== null)
-          this.db.object(tableNames.User + '/' + user.uid).subscribe((res) => observer.next(res));
-      });
+    return this.getAuth().switchMap((user: firebase.User) => {
+      return (user != null) ? this.rtdb.object(tableNames.User + '/' + user.uid) : Observable.empty();
     });
   }
 }

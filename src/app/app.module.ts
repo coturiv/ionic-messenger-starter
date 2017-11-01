@@ -22,6 +22,7 @@ import { Keyboard } from '@ionic-native/keyboard';
 import { AuthProvider } from '../providers/auth/auth';
 import { ChatsProvider } from '../providers/chats/chats';
 import { ContactsProvider } from '../providers/contacts/contacts';
+import { FbRtdbProvider } from '../providers/fb-rtdb/fb-rtdb';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { ContactsProvider } from '../providers/contacts/contacts';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
     ChatsProvider,
-    ContactsProvider
+    ContactsProvider,
+    FbRtdbProvider
   ]
 })
 export class AppModule {}

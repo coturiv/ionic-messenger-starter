@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { FbRtdbProvider, QueryModel } from '../fb-rtdb/fb-rtdb';
 import * as firebase from 'firebase/app';
 
 import { AuthProvider } from '../auth/auth';
@@ -9,12 +9,12 @@ import { tableNames } from '../../app/app.constants';
 @Injectable()
 export class ChatsProvider {
 
-  constructor(public db: AngularFireDatabase, public authProvider: AuthProvider) {
+  constructor(public rtdb: FbRtdbProvider, public authProvider: AuthProvider) {
   }
 
   getMessages(channelId: string = 'general') {
 
-    return this.db.list(`${tableNames.ChatMessage}/${channelId}`)
+    return this.rtdb.list(`${tableNames.ChatMessage}/${channelId}`)
       .map(messages => messages.map((item) => {
         item.day = new Date(item.timestamp || Date.now()).getDate();
 
@@ -26,10 +26,11 @@ export class ChatsProvider {
   }
 
   getLastMessages(channelId: string = 'general', count: number = 5) {
-    return this.db.list(`${tableNames.ChatMessage}/${channelId}`, {query: {
-      limitToLast: 5,
-      orderByPriority: true
-    }}).map(messages => messages.reverse().map((item) => {
+    let query = new QueryModel();
+    query.limitToLast = 5;
+    query.orderByKey = true;
+    return this.rtdb.list(`${tableNames.ChatMessage}/${channelId}`, query).map(messages => 
+      messages.reverse().map((item) => {
         if (item.from)
           item.user = this.authProvider.getFullProfile(item.from);
 
@@ -38,12 +39,11 @@ export class ChatsProvider {
   }
 
   sendMessage(userId: string, message: string, channelId: string = 'general') {
-    return this.db.list(`${tableNames.ChatMessage}/${channelId}`)
-      .push({
-        from: userId,
-        message: message,
-        timestamp: firebase.database['ServerValue']['TIMESTAMP']
-      });
+    return this.rtdb.push(`${tableNames.ChatMessage}/${channelId}`, {
+      from: userId,
+      message: message,
+      timestamp: firebase.database['ServerValue']['TIMESTAMP']
+    });
   }
 
 }

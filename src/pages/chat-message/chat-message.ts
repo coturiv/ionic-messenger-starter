@@ -12,7 +12,7 @@ import { AuthProvider, UserModel } from '../../providers/auth/auth';
 })
 export class ChatMessagePage implements OnInit, OnDestroy {
   chatText: string;
-  chatMessages: Array<string>;
+  chatMessages: Array<any>;
   textMaxLength: number = 400;
   user: UserModel;
 
