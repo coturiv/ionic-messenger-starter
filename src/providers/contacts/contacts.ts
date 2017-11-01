@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { FbRtdbProvider, QueryModel } from '../fb-rtdb/fb-rtdb';
 import { tableNames } from '../../app/app.constants';
 
 
 @Injectable()
 export class ContactsProvider {
 
-  constructor(public db: AngularFireDatabase) {
+  constructor(public rtdb: FbRtdbProvider) {
   }
 
   getContacts() {
-    return this.db.list(tableNames.User, {query: {
-      orderByChild: 'updatedAt'
-    }}).map((contacts) => contacts.reverse());
+    let query = new QueryModel();
+    query.orderByChild = 'updatedAt';
+
+    return this.rtdb.list(tableNames.User, query).map((contacts) => contacts.reverse());
   }
 
 }

@@ -8,7 +8,7 @@ import { ContactsProvider } from '../../providers/contacts/contacts';
   templateUrl: 'tab-contacts.html',
 })
 export class TabContactsPage {
-  contactList: Array<any>;
+  contactList: any;
 
   constructor(
     public navCtrl: NavController, 
@@ -19,12 +19,7 @@ export class TabContactsPage {
   }
 
   ionViewDidLoad() {
-    let loading = this.loadingCtrl.create();
-    loading.present();
-    this.contactsProvider.getContacts().subscribe((contacts) => {
-      this.contactList = contacts;
-      loading.dismiss();
-    });
+    this.contactList = this.contactsProvider.getContacts();
   }
 
 }

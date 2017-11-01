@@ -11,7 +11,7 @@
 
 
 <ion-content>
-  <ion-item-group *ngFor="let contact of contactList; let i=index">
+  <ion-item-group *ngFor="let contact of contactList | async; let i=index">
 
     <ion-item>
       <ion-avatar item-start>
