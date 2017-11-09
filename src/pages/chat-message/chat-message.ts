@@ -52,7 +52,7 @@ export class ChatMessagePage implements OnInit, OnDestroy {
     if (!this.chatText)
       return;
 
-    this.chatProvider.sendMessage((this.user as any).$key, this.chatText)
+    this.chatProvider.sendMessage((this.user as any).key, this.chatText)
       .then(() => {
           this.chatText = '';
           this.scrollDown();
