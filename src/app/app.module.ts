@@ -23,6 +23,7 @@ import { AuthProvider } from '../providers/auth/auth';
 import { ChatsProvider } from '../providers/chats/chats';
 import { ContactsProvider } from '../providers/contacts/contacts';
 import { FbRtdbProvider } from '../providers/fb-rtdb/fb-rtdb';
+import { FbFirestoreProvider } from '../providers/fb-firestore/fb-firestore';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { FbRtdbProvider } from '../providers/fb-rtdb/fb-rtdb';
     AuthProvider,
     ChatsProvider,
     ContactsProvider,
-    FbRtdbProvider
+    FbRtdbProvider,
+    FbFirestoreProvider
   ]
 })
 export class AppModule {}
