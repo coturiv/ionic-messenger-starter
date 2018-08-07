@@ -1,0 +1,20 @@
+:host {
+  ion-item {
+    --inner-border-width: 0;
+    --border-width: 0;
+  }
+
+  .channel-name {
+    text-transform: capitalize;
+  }
+
+  .last-message {
+    font-size: 14px;
+    opacity: .7;
+    font-style: italic;
+  }
+
+  ion-button {
+    --box-shadow: none;
+  }
+}

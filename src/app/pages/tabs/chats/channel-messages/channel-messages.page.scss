@@ -1,0 +1,89 @@
+:host {
+  ion-title {
+    text-transform: capitalize;
+  }
+  
+  ion-item {
+    --border-width: 0!important;
+    --inner-border-width: 0!important;
+
+    ion-avatar {
+      width: 36px;
+      height: 36px;
+    }
+  }
+  
+  .message-user {
+    position: absolute;
+    left: 60px;
+    top: 10px;
+    font-size: 12px;
+    color: rgba(0,0,0,.9);
+  }
+  
+  .message-text {
+    display: inline-block;
+    padding: 8px;
+    border-radius: 4px;
+    max-width: 240px;
+    min-width: 136px;
+    font-size: 13px;
+    font-family: Lato, "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+    line-height: 20px;
+    white-space: pre-line;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  
+    &.left {
+      background-color: #a7e4ed;
+      color: #444;
+      float: left !important;
+      margin-left: 46px;
+      margin-top: -14px;
+    }
+  
+    &.left:before {
+      position: absolute;
+      left: 56px;
+      content:'';
+      width: 0;
+      height: 0;
+      border-width: 7px 14px 7px 0;
+      border-style: solid;
+      border-color: transparent #a7e4ed transparent;
+    }
+  
+    &.right {
+      background-color: #d7e4ed;
+      margin-right: 12px;
+      color: #444;
+      float: right !important;
+    }
+  
+    &.right:before {
+      position: absolute;
+      right: 22px;
+      bottom: 22px;
+      content:'';
+      width: 0;
+      height: 0;
+      border-width: 7px 0 7px 14px;
+      border-style: solid;
+      border-color: transparent #d7e4ed transparent;
+    }
+  }
+  
+  .message-time {
+    font-size: 12px;
+    opacity: .6;
+  }
+  
+  ion-footer {
+    --ion-toolbar-background-color: var(--ion-color-white);
+  
+    .message-input {
+      padding-left: 8px;
+    }
+  }
+  
+}

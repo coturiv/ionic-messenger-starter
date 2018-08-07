@@ -1,0 +1,20 @@
+:host {
+  .user-photo ion-avatar {
+    margin: 0 auto;
+    width: 120px;
+    height: 120px;
+  }
+
+  ion-list {
+    margin-top: 24px;
+    p {
+      font-size: 12px;
+      font-weight: 400;
+      padding-bottom: 4px;
+    };
+    h2 {
+      font-weight: 400;
+      opacity: .5;
+    }
+  }
+}

@@ -1,6 +1,7 @@
 {
-  "name": "ionic-messenger-starter",
-  "app_id": "",
-  "type": "ionic-angular",
-  "integrations": {}
+  "name": "ionic-starter",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
 }
