@@ -1,0 +1,37 @@
+<ion-app>
+  <ion-split-pane>
+    <ion-menu>
+      <ion-content>
+        <div class="profile" padding text-center *ngIf="currentUser | async as profile">
+          <ion-avatar class="md">
+            <img [src]="profile.photoURL || 'assets/images/noavatar.png'">
+          </ion-avatar>
+
+          <h5>{{profile.displayName || 'Unknown'}}</h5>
+          <p>{{profile.email}}</p>
+        </div>
+        <ion-list>
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
+            <ion-item [routerDirection]="'root'" (click)="navigateTo(p.url)">
+              <ion-icon slot="start" [name]="p.icon"></ion-icon>
+              <ion-label>
+                {{p.title}}
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
+      <ion-footer>
+        <ion-toolbar color="primary">
+          <ion-buttons slot="start">
+            <ion-button (click)="logout()">
+              <ion-icon name="log-out" slot="start"></ion-icon>
+              Logout
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-footer>
+    </ion-menu>
+    <ion-router-outlet main></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

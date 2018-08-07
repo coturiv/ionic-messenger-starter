@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button text="Back" defaultHref="/app/tabs/(tab1:chats)"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="channel">
+      <ng-container *ngIf="channel.type == 'direct'">
+        <ion-avatar slot="start">
+          <img [src]="(channel.memberId | userProfile | async)?.photoURL || '/assets/images/noavatar.png'">
+        </ion-avatar>
+        <ion-label>
+            {{(channel.memberId | userProfile | async)?.displayName}}
+        </ion-label>
+        
+      </ng-container>
+      <ng-container *ngIf="channel.type != 'direct'">
+        {{channel.name}}
+      </ng-container>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="messages">
+  
+  <ion-list *ngIf="currentUser">
+    <ng-container *ngFor="let message of messages; let i = index">
+      <ion-item>
+        <ion-label>
+          <div *ngIf="message.from == currentUser.id">
+            <div class="message-text right">
+              {{message.text}}
+              
+              <div class="message-time" *ngIf="message.createdAt">
+                {{message.createdAt.toDate && message.createdAt.toDate() || message.createdAt | timeAgo}}
+              </div>
+            </div>
+            
+          </div>
+          <div *ngIf="message.from != currentUser.id">
+            <ion-avatar>
+              <img class="user-image" [src]="(message.from | userProfile | async)?.photoURL || '/assets/images/noavatar.png'" />
+            </ion-avatar>
+            <div class="message-user">
+              {{(message.from | userProfile | async)?.displayName}}
+            </div>
+            <div class="message-text left">
+              {{message.text}}
+              
+              <div class="message-time">
+                {{message.createdAt.toDate() | timeAgo}}
+              </div>
+            </div>
+          </div>
+        </ion-label>
+      </ion-item>
+    </ng-container>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-textarea [(ngModel)]="newMessage.text" class="message-input" placeholder="Type a message here" rows="1" autocapitalize="off"
+                  #messageInput
+                  (keydown.enter)="sendMessage();false"></ion-textarea>
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="sendMessage()">
+        <ion-icon slot="icon-only" name="md-send"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

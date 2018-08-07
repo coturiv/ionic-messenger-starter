@@ -1,66 +1,52 @@
-import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, LoadingController } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import { Component } from '@angular/core';
 
-import { AuthProvider } from '../providers/auth/auth';
-
+import { Platform } from '@ionic/angular';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { Router } from '@angular/router';
+import { UserService } from './services/user.service';
 
 @Component({
-  templateUrl: 'app.html'
+  selector: 'app-root',
+  templateUrl: 'app.component.html',
+  styleUrls: ['app.component.scss'],
 })
-export class MyApp {
-  @ViewChild(Nav) nav: Nav;
+export class AppComponent {
+  appPages = [
+    { title: 'Chats',      url: '/app/tabs/(tab1:chats)',      icon: 'chatbubbles' },
+    { title: 'Contacts',   url: '/app/tabs/(tab2:contacts)',   icon: 'contacts' },
+    { title: 'About',      url: '/app/tabs/(tab4:about)',      icon: 'information-circle' }
+  ];
 
-  rootPage: any;
-
-  pages: Array<{title: string, component: any}>;
+  currentUser: any;
 
   constructor(
-    public platform: Platform, 
-    public statusBar: StatusBar, 
-    public splashScreen: SplashScreen, 
-    public loadingCtrl: LoadingController,
-    public authProvider: AuthProvider 
+    private platform: Platform,
+    private splashScreen: SplashScreen,
+    private statusBar: StatusBar,
+    private router: Router,
+    private userService: UserService
   ) {
     this.initializeApp();
 
-    // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'Home', component: 'TabsPage' }
-    ];
-
+    this.currentUser = this.userService.currentUser;
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
-
-    let loading = this.loadingCtrl.create();
-    this.authProvider.getAuth()
-      .map(state => !!state)
-      .subscribe(authenticated => {
-        loading.dismiss();
-        this.rootPage = (authenticated) ? 'TabsPage' : 'LoginPage';
-      }, (error) => {
-        loading.dismiss();
-        this.rootPage = 'LoginPage';
-        console.log('Error: ' + JSON.stringify(error));
-      });
   }
 
-  openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+  navigateTo(url: string) {
+    this.router.navigateByUrl(url);
   }
 
   logout() {
-    this.authProvider.signOut()
-      .then(() => this.nav.setRoot('LoginPage'));
+    this.userService.logout()
+      .then(_ => {
+        this.navigateTo('/login');
+      });
   }
 }

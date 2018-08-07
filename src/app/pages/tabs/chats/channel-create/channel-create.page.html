@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="onSave()">
+        Save
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Create Channel</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="channelForm">
+    <ion-list>
+      <ion-list-header color="medium">
+        Channel Detail
+      </ion-list-header>
+      <ion-item>
+        <ion-label position="stacked">
+          Name
+        </ion-label>
+        <ion-input type="text" formControlName="name"></ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label position="stacked">
+          Purpose
+        </ion-label>
+        <ion-textarea formControlName="purpose"></ion-textarea>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>
+          Visibility
+        </ion-label>
+        <ion-toggle color="secondary" disabled></ion-toggle>
+      </ion-item>
+  
+      <ion-item *ngIf="contacts | async as users">
+        <ion-label>
+          Members
+        </ion-label>
+        <ion-select formControlName="members" ok-text="Okay" cancel-text="Dismiss" multiple >
+          <ion-select-option *ngFor="let user of users" [value]="user.id">
+            {{user.displayName}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>

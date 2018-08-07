@@ -1,0 +1,21 @@
+:host {
+  ion-split-pane.split-pane-visible > .split-pane-side {
+    max-width: 270px !important;
+  }
+
+  ion-menu {
+    .profile {
+      background: var(--ion-color-primary);
+    
+      ion-avatar {
+        width: 84px;
+        height: 84px;
+        margin: 0 auto;
+      }
+    
+      h5, p {
+        color: #fff;
+      }
+    }
+  }
+}

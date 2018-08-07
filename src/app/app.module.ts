@@ -1,60 +1,45 @@
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { RouterModule, RouteReuseStrategy, Routes } from '@angular/router';
 
-import { MyApp } from './app.component';
-import { ContactCardComponent } from '../components/contact-card/contact-card';
-import { ImagePickerComponent } from '../components/image-picker/image-picker';
-import { LoaderComponent } from '../components/loader/loader';
-import { AutoFocusDirective } from '../directives/auto-focus/auto-focus';
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
-import { firebaseConfig } from './app.constants';
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { ComponentsModule } from './components/components.module';
+import { ServicesModule } from './services/services.module';
+import { HttpClientModule } from '@angular/common/http';
+
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireStorageModule } from 'angularfire2/storage';
 
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { Facebook } from '@ionic-native/facebook';
-import { GooglePlus } from '@ionic-native/google-plus';
-import { Keyboard } from '@ionic-native/keyboard';
-
-import { AuthProvider } from '../providers/auth/auth';
-import { ChatsProvider } from '../providers/chats/chats';
-import { ContactsProvider } from '../providers/contacts/contacts';
-import { FbRtdbProvider } from '../providers/fb-rtdb/fb-rtdb';
-
+import { environment } from '../environments/environment';
 
 @NgModule({
-  declarations: [
-    MyApp,
-    ContactCardComponent,
-    ImagePickerComponent,
-    LoaderComponent,
-    AutoFocusDirective,
-  ],
+  declarations: [AppComponent],
+  entryComponents: [],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
-    AngularFireModule.initializeApp(firebaseConfig),
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    ComponentsModule,
+    ServicesModule,
+    HttpClientModule,
+
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule.enablePersistence(),
     AngularFireAuthModule,
-    AngularFireDatabaseModule,
-  ],
-  bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
+    AngularFireStorageModule,
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    Facebook,
-    GooglePlus,
-    Keyboard,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthProvider,
-    ChatsProvider,
-    ContactsProvider,
-    FbRtdbProvider
-  ]
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

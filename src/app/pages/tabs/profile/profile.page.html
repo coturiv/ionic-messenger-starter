@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="currentUser | async as profile">
+  <div class="user-photo" padding-top>
+    <ion-avatar>
+      <img [src]="profile.photoURL || '/assets/images/noavatar.png'">
+    </ion-avatar>
+  </div>
+
+  <ion-list>
+    <ion-item>
+      <ion-icon name="person" slot="start"></ion-icon>
+      <ion-label>
+        <p>Display Name</p>
+        <h2>{{profile.displayName}}</h2>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="mail" slot="start"></ion-icon>
+      <ion-label>
+        <p>Email</p>
+        <h2>{{profile.email}}</h2>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

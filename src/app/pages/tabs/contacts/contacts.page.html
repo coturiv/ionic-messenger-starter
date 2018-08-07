@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Contacts</ion-title>
+  </ion-toolbar>
+  
+  <ion-toolbar color="primary">
+    <ion-searchbar [(ngModel)]="searchText" (ionInput)="search()"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let contact of filteredList">
+      <ion-avatar slot="start">
+        <img [src]="contact.photoURL">
+      </ion-avatar>
+      <ion-label>
+        <h4>{{contact.displayName}}</h4>
+        <p>{{contact.email}}</p>
+        <p class="contact-time">{{contact.createdAt.toDate() | timeAgo}}</p>
+      </ion-label>
+      <ion-note slot="end">
+        <ion-button (click)="createDirectChannel(contact)" [disabled]="!currentUser" expand="clear">
+          <ion-icon slot="icon-only" name="chatbubbles"></ion-icon>
+        </ion-button>
+      </ion-note>
+    </ion-item>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="loadData($event)" threshold="50px">
+    <ion-infinite-scroll-content loadingSpinner="bubbles">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
