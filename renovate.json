@@ -3,6 +3,9 @@
   "semanticCommits": true,
   "semanticPrefix": "chore:",
   "commitMessage": "{{semanticPrefix}} Update {{depName}} to version {{newVersion}}",
+  "labels": [
+		"dependencies"
+	],
   "packages": [
     {
       "packagePattern": "^@angular\/.*",
