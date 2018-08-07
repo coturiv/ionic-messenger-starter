@@ -1,5 +1,43 @@
 {
-  "extends": [
-    "config:base"
+  "pinVersions": false,
+  "semanticCommits": true,
+  "semanticPrefix": "chore:",
+  "commitMessage": "{{semanticPrefix}} Update {{depName}} to version {{newVersion}}",
+  "packages": [
+    {
+      "packagePattern": "^@angular\/.*",
+      "groupName": "angular",
+      "pinVersions": false
+    },
+    {
+      "packagePattern": "^@angular-devkit\/.*",
+      "groupName": "angular devkit",
+      "pinVersions": false
+    },
+    {
+      "packagePattern": "^@ionic\/.*",
+      "groupName": "ionic",
+      "pinVersions": false
+    },
+    {
+      "packagePattern": "^@ionic-native\/.*",
+      "groupName": "ionic native",
+      "pinVersions": false
+    },
+    {
+      "packagePattern": "^@types\/.*",
+      "groupName": "type definitions",
+      "pinVersions": false
+    },
+    {
+      "packagePattern": "^jasmine.*",
+      "groupName": "jasmine",
+      "pinVersions": false
+    },
+    {
+      "packagePattern": "^karma.*",
+      "groupName": "karma",
+      "pinVersions": false
+    }
   ]
 }
