@@ -30,6 +30,9 @@
             {{channel.lastMessage || channel.purpose}}
           </p>
         </ion-label>
+        <ion-note slot="end" *ngIf="channel.updatedAt">
+          {{channel.updatedAt.toDate() | timeAgo}}
+        </ion-note>
       </ion-item>
 
       <ion-item-options side="end" *ngIf="channel.type != 'public'">
@@ -63,6 +66,9 @@
             {{channel.lastMessage || channel.purpose}}
           </p>
         </ion-label>
+        <ion-note slot="end" *ngIf="channel.updatedAt">
+          {{channel.updatedAt.toDate() | timeAgo}}
+        </ion-note>
       </ion-item>
 
       <ion-item-options side="end">

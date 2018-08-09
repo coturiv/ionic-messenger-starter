@@ -2,6 +2,10 @@
   ion-item {
     --inner-border-width: 0;
     --border-width: 0;
+
+    ion-note {
+      font-size: 14px;
+    }
   }
 
   .channel-name {
