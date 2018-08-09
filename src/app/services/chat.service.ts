@@ -26,7 +26,7 @@ export class ChatService extends FirebaseService {
   
   getMessages(channelId: string, isNewOnly = false) {
     const query = new AFSQuery();
-    query.orderBy = ['createdAt', 'asc'];
+    query.orderBy = ['createdAt', 'desc'];
     query.limit = 50;
 
     if (!isNewOnly) {

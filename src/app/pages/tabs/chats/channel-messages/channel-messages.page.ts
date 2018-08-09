@@ -94,7 +94,7 @@ export class ChannelMessagesPage implements OnInit, OnDestroy {
     // load old messages
     this.messagesSubscription = this.chatService.getMessages(channelId).pipe(take(1))
       .subscribe(messages => {
-        this.messages = messages;
+        this.messages = messages.reverse();
         this.newMessage = this.chatService.newMessage;
 
         // subscribe incoming messages
