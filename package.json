@@ -15,6 +15,7 @@
   "dependencies": {
     "@angular/common": "6.1.7",
     "@angular/core": "6.1.7",
+    "@angular/fire": "^5.0.0",
     "@angular/forms": "6.1.7",
     "@angular/http": "6.1.7",
     "@angular/platform-browser": "6.1.7",
@@ -26,7 +27,6 @@
     "@ionic/angular": "4.0.0-beta.3",
     "@ionic/ng-toolkit": "1.0.7",
     "@ionic/schematics-angular": "1.0.5",
-    "angularfire2": "^5.0.0-rc.11",
     "core-js": "^2.5.3",
     "date-fns": "^1.29.0",
     "firebase": "^5.3.0",
