@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { FirebaseService, AFSQuery } from './firebase.service';
-import { AngularFirestore } from '../../../node_modules/angularfire2/firestore';
+import { AngularFirestore } from '../../../node_modules/@angular/fire/firestore';
 import { switchMap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 

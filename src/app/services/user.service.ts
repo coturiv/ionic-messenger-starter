@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { FirebaseService, AFSQuery } from './firebase.service';
-import { AngularFirestore } from 'angularfire2/firestore';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 import { map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';

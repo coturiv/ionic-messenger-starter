@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { FirebaseService, AFSQuery } from './firebase.service';
-import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 import { BehaviorSubject, combineLatest, of } from 'rxjs';
 import { switchMap, map, take } from 'rxjs/operators';
-import { resolve } from '../../../node_modules/@types/q';
 
 @Injectable({
   providedIn: 'root'
